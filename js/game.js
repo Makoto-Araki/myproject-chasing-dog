@@ -12,8 +12,17 @@ const INIT_PLAYER_Y = 80;
 const INIT_BALL_X = 200;
 const INIT_BALL_Y = 200;
 
+// プレイヤーの移動スピード
+const PLAYER_SPEED = 4;
+
 // スコア(100単位)
 let score = 0;
+
+// スコア記録
+let record = 0;
+
+// 画面メッセージ表示時間
+let frame = 0;
 
 // プレイヤークラス
 class Player {
@@ -31,16 +40,16 @@ class Player {
   move(keyCode) {
     switch(keyCode) {
       case 37:  // 左
-        this.x -= 4;
+        this.x -= PLAYER_SPEED;
         break;
       case 38:  // 上
-        this.y -= 4;
+        this.y -= PLAYER_SPEED;
         break;
       case 39:  // 右
-        this.x += 4;
+        this.x += PLAYER_SPEED;
         break;
       case 40:  // 下
-        this.y += 4;
+        this.y += PLAYER_SPEED;
         break;
     }
   }
@@ -127,27 +136,27 @@ class Game {
     if (player.movement >= 0) {
       switch(input.pushed) {
         case 'left':
-          if (tmpX - 4 >= 0) {
+          if (tmpX - PLAYER_SPEED >= 0) {
             player.move(37);
-            player.movement -= 4;
+            player.movement -= PLAYER_SPEED;
           }
           break;
         case 'up':
-          if (tmpY - 4 >= 40) {
+          if (tmpY - PLAYER_SPEED >= 40) {
             player.move(38);
-            player.movement -= 4;
+            player.movement -= PLAYER_SPEED;
           }
           break;
         case 'right':
-          if (tmpX + 4 < CANVAS_W - 40) {
+          if (tmpX + PLAYER_SPEED < CANVAS_W - 40) {
             player.move(39);
-            player.movement -= 4;
+            player.movement -= PLAYER_SPEED;
           }
           break;
         case 'down':
-          if (tmpY + 4 < CANVAS_H - 40) {
+          if (tmpY + PLAYER_SPEED < CANVAS_H - 40) {
             player.move(40);
-            player.movement -= 4;
+            player.movement -= PLAYER_SPEED;
           }
           break;
       }
@@ -158,9 +167,19 @@ class Game {
          player.y > ball.y - 25 &&
          player.y < ball.y + 25 ) {
       ball.move();
-      score += 100;
       audio.volume = 0.5;
       audio.play();
+      score += 100;
+      if (score % 2000 === 0) {
+        frame = 90;
+        record = score;
+      }
+    }
+    
+    if (frame > 0) {
+      ctx.font = "25px 'Hiragino Kaku Gothic Pro', 'MS Gothic', sans-serif";
+      ctx.fillText(`${record} OVER`, 150, 170, 100);
+      frame -= 1;
     }
     
     for (let i = 0; i < this.objects.length; i++) {
