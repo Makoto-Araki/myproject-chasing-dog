@@ -8,9 +8,9 @@ const CANVAS_H = 400;
 const INIT_PLAYER_X = 80;
 const INIT_PLAYER_Y = 80;
 
-// コイン1画像の画面領域上の初期表示位置(px)
-const INIT_COIN1_X = 200;
-const INIT_COIN1_Y = 200;
+// ボール画像の画面領域上の初期表示位置(px)
+const INIT_BALL_X = 200;
+const INIT_BALL_Y = 200;
 
 // スコア(100単位)
 let score = 0;
@@ -46,8 +46,8 @@ class Player {
   }
 }
 
-// コインクラス
-class Coin {
+// ボールクラス
+class Ball {
   constructor(img, x, y) {
     this.img = new Image();
     this.img.src = img;
@@ -81,8 +81,8 @@ class Input {
   }
 }
 
-// コイン生成
-let coin1 = new Coin('img/coin.png', INIT_COIN1_X, INIT_COIN1_Y);
+// ボール生成
+let ball = new Ball('img/ball.png', INIT_BALL_X, INIT_BALL_Y);
 
 // プレイヤー生成
 let player = new Player('img/dog.png', INIT_PLAYER_X, INIT_PLAYER_Y);
@@ -98,7 +98,7 @@ class Game {
   constructor() {
     this.width = CANVAS_W;
     this.height = CANVAS_H;
-    this.objects = [ coin1, player ];
+    this.objects = [ ball, player ];
   }
   draw() {
     let can = document.getElementById('can');
@@ -110,13 +110,13 @@ class Game {
     
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
-
+    
     ctx.strokeStyle = '#FFF';
     ctx.strokeRect(0, 0, CANVAS_W, 40);
     
     ctx.fillStyle = '#FFF';
-    ctx.fillText(`Score:${score}`, 10, 30);
-
+    ctx.fillText(`SCORE: ${score}`, 10, 30);
+    
     if (input.left || input.up || input.right || input.down) {
       player.movement = 40;
     }
@@ -153,11 +153,11 @@ class Game {
       }
     }
     
-    if ( player.x > coin1.x - 25 &&
-         player.x < coin1.x + 25 &&
-         player.y > coin1.y - 25 &&
-         player.y < coin1.y + 25 ) {
-      coin1.move();
+    if ( player.x > ball.x - 25 &&
+         player.x < ball.x + 25 &&
+         player.y > ball.y - 25 &&
+         player.y < ball.y + 25 ) {
+      ball.move();
       score += 100;
       audio.volume = 0.5;
       audio.play();
