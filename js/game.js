@@ -90,6 +90,9 @@ let player = new Player('img/dog.png', INIT_PLAYER_X, INIT_PLAYER_Y);
 // 入力キーオブジェクト生成
 let input = new Input();
 
+// 音声オブジェクト生成
+let audio = new Audio('sound/poka.mp3');
+
 // ゲームクラス
 class Game {
   constructor() {
@@ -156,6 +159,8 @@ class Game {
          player.y < coin1.y + 25 ) {
       coin1.move();
       score += 100;
+      audio.volume = 0.5;
+      audio.play();
     }
     
     for (let i = 0; i < this.objects.length; i++) {
