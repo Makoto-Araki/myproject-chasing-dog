@@ -102,6 +102,9 @@ let input = new Input();
 // 音声オブジェクト生成
 let audio = new Audio('sound/poka.mp3');
 
+// 音声オブジェクト生成
+let jump = new Audio('sound/jump.mp3');
+
 // ゲームクラス
 class Game {
   constructor() {
@@ -170,9 +173,11 @@ class Game {
       audio.volume = 0.5;
       audio.play();
       score += 100;
-      if (score % 2000 === 0) {
+      if (score % 1000 === 0) {
         frame = 90;
         record = score;
+        jump.volume = 0.3;
+        jump.play();
       }
     }
     
