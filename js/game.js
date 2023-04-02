@@ -100,7 +100,7 @@ let player = new Player('img/dog.png', INIT_PLAYER_X, INIT_PLAYER_Y);
 let input = new Input();
 
 // 音声オブジェクト生成
-let audio = new Audio('sound/poka.mp3');
+let poka = new Audio('sound/poka.mp3');
 
 // 音声オブジェクト生成
 let jump = new Audio('sound/jump.mp3');
@@ -170,19 +170,19 @@ class Game {
          player.y > ball.y - 25 &&
          player.y < ball.y + 25 ) {
       ball.move();
-      audio.volume = 0.5;
-      audio.play();
+      poka.volume = 0.4;
+      poka.play();
       score += 100;
       if (score % 1000 === 0) {
         frame = 90;
         record = score;
-        jump.volume = 0.3;
+        jump.volume = 0.2;
         jump.play();
       }
     }
     
     if (frame > 0) {
-      ctx.font = "25px 'Hiragino Kaku Gothic Pro', 'MS Gothic', sans-serif";
+      ctx.font = "35px 'Hiragino Kaku Gothic Pro', 'MS Gothic', sans-serif";
       ctx.fillText(`${record} OVER`, 150, 170, 100);
       frame -= 1;
     }
